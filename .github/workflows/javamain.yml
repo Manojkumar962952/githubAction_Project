@@ -1,0 +1,28 @@
+name: My First GitHub Actions - Java
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: [8, 11, 17]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: ${{ matrix.java-version }}
+
+    - name: Compile Java program
+      run: |
+        mkdir -p bin
+        javac -d bin javacode/HelloWorld.java
+
+    - name: Run Java program
+      run: |
+        java -cp bin HelloWorld
